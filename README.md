@@ -125,7 +125,7 @@ Claude Codeを起動して以下を実行：
 
 1. DiscordでBotにDMを送信
 2. Botがペアリングコードを返信
-3. Claude Code側で確認：
+3. Claude Code側でペアリングを承認：
    ```bash
    /discord:access pair PAIRING_CODE
    ```
@@ -134,11 +134,31 @@ Claude Codeを起動して以下を実行：
    /discord:access policy allowlist
    ```
 
+> **⚠️ ペアリング後にBotが返信しない場合**
+>
+> `/discord:access pair` を実行しても返信が来ない場合、プロジェクトディレクトリ内の `.discord-state/access.json` が正しく更新されていない可能性があります。以下を確認してください：
+>
+> 1. `.discord-state/access.json` の `allowFrom` に自分のDiscordユーザーIDが含まれているか
+> 2. `pending` が空になっているか
+>
+> 手動で修正する場合：
+> ```json
+> {
+>   "dmPolicy": "pairing",
+>   "allowFrom": ["YOUR_DISCORD_USER_ID"],
+>   "groups": {},
+>   "pending": {}
+> }
+> ```
+>
+> DiscordユーザーIDは、Discordの設定 → 詳細設定 → 開発者モードを有効にし、自分のアイコンを右クリック → 「IDをコピー」で取得できます。
+
 ### トラブルシューティング
 
 | 症状 | 確認ポイント |
 |---|---|
 | Botが返信しない | Claude Codeが `--discord` フラグで起動しているか確認 |
+| ペアリング後も返信が来ない | `.discord-state/access.json` の `allowFrom` にユーザーIDが入っているか確認（上記参照） |
 | メッセージを読めない | Developer PortalでMessage Content Intentが有効か確認 |
 | 権限エラー | OAuth2 URL GeneratorでBot Permissionsを再設定 |
 | トークンが無効 | Developer Portalでトークンをリセットして再設定 |
