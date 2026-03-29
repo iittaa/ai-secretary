@@ -1,0 +1,9 @@
+# 個人データ（セットアップ時に生成）
+CLAUDE.md
+memory/
+
+# OS
+.DS_Store
+
+# Discord state
+.discord-state/
