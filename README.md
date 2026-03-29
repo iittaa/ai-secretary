@@ -19,7 +19,7 @@ Claude Code を使った専用AI秘書パッケージ。
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/YOUR_USERNAME/ai-secretary.git
+git clone https://github.com/iittaa/ai-secretary.git
 cd ai-secretary
 
 # スクリプトに実行権限を付与
