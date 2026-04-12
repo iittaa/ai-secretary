@@ -1,0 +1,24 @@
+{
+  "name": "john",
+  "version": "1.0.0",
+  "description": "Claude Code を使った専用AI秘書パッケージ。 セットアップするだけで、あなた専用の記憶を持つAI秘書が使えるようになります。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iittaa/ai-secretary.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/iittaa/ai-secretary/issues"
+  },
+  "homepage": "https://github.com/iittaa/ai-secretary#readme",
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

@@ -7,3 +7,9 @@ memory/
 
 # Discord state
 .discord-state/
+
+# X(Twitter)
+.x_cookies.json
+
+# Node.js
+node_modules/
