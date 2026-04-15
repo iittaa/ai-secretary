@@ -4,6 +4,9 @@
 # Discord state
 .discord-state/
 
+# 環境変数
+.env
+
 # X(Twitter)
 .x_cookies.json
 
