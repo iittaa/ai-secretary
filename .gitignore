@@ -12,3 +12,6 @@
 
 # Node.js
 node_modules/
+
+# サムネ生成物（再生成可能なのでコミット不要）
+output/thumbnails/
