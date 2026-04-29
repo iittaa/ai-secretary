@@ -246,6 +246,7 @@ def compose_thumbnail(
     text_left_ratio: float,
     font_min: int = 30,
     font_max: int = 400,
+    text_pad_ratio: float = 0.05,
 ) -> Image.Image:
     out = bg.copy().convert("RGBA")
 
@@ -258,13 +259,16 @@ def compose_thumbnail(
 
     # テキストブロックが使える幅 = キャラ領域を除いた画面幅
     available_w = out.width - char_occupied_w
-    text_max_w = int(available_w * text_area_ratio)  # 余白を残すため割合をかける
+    # 左右それぞれ text_pad_ratio の余白を確保
+    pad_px = int(out.width * text_pad_ratio)
+    usable_w = available_w - pad_px * 2
+    text_max_w = int(usable_w * text_area_ratio)
     text_max_h = int(out.height * 0.7)
 
     text_block = render_text_block(lines, text_max_w, text_max_h, font_min=font_min, font_max=font_max)
 
-    # テキストブロックを「キャラ領域を除いたエリアの中央」に配置
-    text_x = (available_w - text_block.width) // 2
+    # テキストブロックを「余白分を除いたエリアの中央」に配置
+    text_x = pad_px + (usable_w - text_block.width) // 2
     text_y = (out.height - text_block.height) // 2
     out.alpha_composite(text_block, dest=(text_x, text_y))
 
@@ -316,6 +320,7 @@ def process_csv(csv_path: Path, args) -> int:
                     args.char_size, args.char_margin,
                     args.text_area, args.text_left,
                     font_min=args.font_min, font_max=args.font_max,
+                    text_pad_ratio=args.text_pad,
                 )
                 out_path = OUTPUT_DIR / output_name
                 result.save(out_path, "PNG")
@@ -335,10 +340,11 @@ def main() -> int:
     p.add_argument("--bg", type=str, default=None, help="背景画像パスの上書き")
     p.add_argument("--char-size", type=float, default=0.24, help="キャラ幅の画面比 (デフォルト: 0.24)")
     p.add_argument("--char-margin", type=float, default=0.05, help="右下余白の画面比 (デフォルト: 0.05)")
-    p.add_argument("--text-area", type=float, default=0.90, help="テキストが利用可能エリア(キャラ除外後)に占める幅比 (デフォルト: 0.90)")
+    p.add_argument("--text-area", type=float, default=1.0, help="テキストが利用可能エリア(キャラ除外後)に占める幅比 (デフォルト: 1.0)")
     p.add_argument("--text-left", type=float, default=0.06, help="(現在未使用) 旧:テキスト左端の画面比")
-    p.add_argument("--font-min", type=int, default=100, help="フォント最小サイズ px (デフォルト: 100)")
+    p.add_argument("--font-min", type=int, default=50, help="フォント最小サイズ px (デフォルト: 50)")
     p.add_argument("--font-max", type=int, default=300, help="フォント最大サイズ px (デフォルト: 300)")
+    p.add_argument("--text-pad", type=float, default=0.05, help="テキスト左右余白の画面比 (デフォルト: 0.05)")
     args = p.parse_args()
 
     if not args.csv.exists():
